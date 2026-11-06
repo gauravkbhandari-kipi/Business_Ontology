@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConocoPhillips · Business Ontology on Snowflake · Delivered by kipi.ai</title>
+<style>
+:root{--red:#E31937;--red2:#B5121B;--blk:#0E0E10;--ink:#16171B;--card:#1C1D22;--bd:#2A2B31;--txt:#F4F4F5;--mut:#A1A1AA;--sf:#29B5E8;--kipi:#7C3AED;--ok:#22C55E;--amb:#F59E0B}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Helvetica Neue",Inter,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--blk);color:var(--txt);overflow-x:hidden;line-height:1.6}
+canvas#bg{position:fixed;inset:0;z-index:0;opacity:.35}
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:60;width:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:12px 40px;background:rgba(14,14,16,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+.cop{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+.cop .mk{width:30px;height:30px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-size:.7rem;color:#fff}
+.cop small{color:var(--mut);font-weight:500;margin-left:6px}
+nav ul{display:flex;gap:20px;list-style:none}nav a{color:var(--mut);text-decoration:none;font-size:.82rem;transition:.3s}nav a:hover,nav a.active{color:var(--red)}
+.kipi-badge{font-size:.75rem;color:var(--mut);border:1px solid var(--bd);padding:5px 12px;border-radius:20px}.kipi-badge b{color:#C4B5FD}
+section{position:relative;z-index:1;min-height:100vh;padding:110px 8vw 70px;display:flex;flex-direction:column;justify-content:center}
+section:nth-of-type(even){background:linear-gradient(180deg,transparent,rgba(227,25,55,.04),transparent)}
+h1{font-size:clamp(2.4rem,5.5vw,4.6rem);line-height:1.06;font-weight:800;letter-spacing:-1px}
+h2{font-size:clamp(1.8rem,3.4vw,2.8rem);font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
+.r{color:var(--red)}
+.eyebrow{color:var(--red);text-transform:uppercase;letter-spacing:3px;font-size:.76rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--red)}
+.lead{color:var(--mut);font-size:1.08rem;max-width:780px;margin-top:16px}
+.reveal{opacity:0;transform:translateY(40px);transition:all .9s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+.hero-band{position:absolute;right:-10vw;top:0;bottom:0;width:45vw;background:linear-gradient(135deg,var(--red),var(--red2));clip-path:polygon(30% 0,100% 0,100% 100%,0 100%);opacity:.9;animation:slideIn 1.4s cubic-bezier(.2,.8,.2,1)}
+@keyframes slideIn{from{transform:translateX(60%);opacity:0}}
+.hero-band::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 2px,transparent 2px 22px)}
+.hero-inner{position:relative;max-width:62vw}
+@media(max-width:900px){.hero-band{display:none}.hero-inner{max-width:100%}nav ul{display:none}}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.chip{padding:6px 14px;border-radius:30px;font-size:.78rem;font-weight:600;border:1px solid var(--c);color:var(--c)}
+.pulse{animation:pulse 2.4s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,158,11,.45)}70%{box-shadow:0 0 0 9px rgba(245,158,11,0)}}
+.credit{margin-top:34px;display:flex;gap:30px;flex-wrap:wrap;color:var(--mut);font-size:.88rem}
+.credit b{color:var(--txt);display:block;font-size:1rem}
+.scroll{position:absolute;bottom:28px;left:8vw;color:var(--mut);font-size:.75rem;animation:bob 2s infinite}@keyframes bob{50%{transform:translateY(8px)}}
+.grid{display:grid;gap:18px;margin-top:34px}.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}.g3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:22px;transition:transform .35s,border-color .35s,box-shadow .35s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-6px);border-color:var(--red);box-shadow:0 18px 40px -20px rgba(227,25,55,.6)}
+.card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:var(--c,var(--red));transform:scaleX(0);transform-origin:left;transition:.5s}.card:hover::before{transform:scaleX(1)}
+.card h3{font-size:1.02rem;margin:10px 0 6px}.card p{color:var(--mut);font-size:.88rem}
+.ico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-weight:800;background:rgba(227,25,55,.14);color:var(--c,var(--red))}
+.tag{font-family:ui-monospace,monospace;font-size:.74rem;color:#FCA5A5;background:rgba(227,25,55,.12);padding:2px 8px;border-radius:6px}
+.stack{display:flex;flex-direction:column;gap:10px;margin-top:30px;max-width:920px}
+.layer{padding:16px 22px;border-radius:10px;border-left:4px solid var(--c);background:var(--card);display:flex;justify-content:space-between;align-items:center;gap:20px}
+.layer span{color:var(--mut);font-size:.85rem}
+.graph-wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;margin-top:16px}@media(max-width:900px){.graph-wrap{grid-template-columns:1fr}}
+svg#kg{width:100%;height:auto}
+.edge{stroke:rgba(161,161,170,.45);stroke-width:1.6;stroke-dasharray:6 6;animation:flow 1.6s linear infinite}@keyframes flow{to{stroke-dashoffset:-24}}
+.nd text{fill:#fff;font-size:11px;font-weight:700;text-anchor:middle;pointer-events:none}.elabel{fill:var(--mut);font-size:9px;font-family:monospace;text-anchor:middle}
+.flow{display:flex;align-items:stretch;gap:8px;margin-top:36px;flex-wrap:wrap}
+.step{flex:1;min-width:150px;text-align:center;padding:22px 12px;border-radius:14px;background:var(--card);border:1px solid var(--bd)}
+.step .n{width:44px;height:44px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;font-weight:800;background:var(--c);color:#fff}
+.step p{color:var(--mut);font-size:.8rem}
+.arrow{align-self:center;font-size:1.5rem;color:var(--red);animation:nudge 1.4s infinite}@keyframes nudge{50%{transform:translateX(6px)}}
+table{width:100%;border-collapse:collapse;margin-top:28px;font-size:.88rem}
+th,td{padding:13px 10px;text-align:center;border-bottom:1px solid var(--bd)}th{color:var(--red);font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase}
+td:first-child{text-align:left;font-weight:700}tbody tr:hover{background:rgba(227,25,55,.06)}
+.y{color:var(--ok);font-weight:800}.n{color:#52525B}
+.bar{height:8px;border-radius:5px;background:linear-gradient(90deg,var(--red2),var(--red));width:0;transition:width 1.4s ease}
+pre{background:#08080A;border:1px solid var(--bd);border-left:3px solid var(--red);border-radius:12px;padding:20px;font-size:.8rem;overflow-x:auto;margin-top:22px;line-height:1.75;min-height:60px}
+.k{color:#FCA5A5}.c{color:#71717A}
+.typed::after{content:"▋";color:var(--red);animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+.prov{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.prov div{padding:9px 16px;border-radius:30px;font-family:monospace;font-size:.78rem;border:1px solid var(--c);color:var(--c)}
+.lim{display:flex;gap:14px}.lim .x{color:var(--amb);font-weight:800;font-size:1.1rem}
+/* POC */
+.poc{display:grid;grid-template-columns:1.05fr 1fr;gap:34px;margin-top:30px}@media(max-width:1000px){.poc{grid-template-columns:1fr}}
+.timeline{position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:12px;top:6px;bottom:6px;width:2px;background:var(--bd)}
+.timeline .fill{position:absolute;left:12px;top:6px;width:2px;height:0;background:var(--red);transition:height 3.5s ease}
+.tl{position:relative;margin-bottom:18px;opacity:.35;transition:opacity .5s}
+.tl.on{opacity:1}
+.tl::before{content:attr(data-n);position:absolute;left:-34px;top:0;width:26px;height:26px;border-radius:50%;background:var(--ink);border:2px solid var(--bd);display:grid;place-items:center;font-size:.72rem;font-weight:800;transition:.5s}
+.tl.on::before{background:var(--red);border-color:var(--red)}
+.tl h4{font-size:.95rem}.tl p{color:var(--mut);font-size:.82rem}
+.tl .who{font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.who.k{background:rgba(124,58,237,.2);color:#C4B5FD}.who.c{background:rgba(227,25,55,.2);color:#FCA5A5}.who.s{background:rgba(41,181,232,.18);color:#7DD3FC}
+.console{background:#08080A;border:1px solid var(--bd);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.console .bar2{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--bd);align-items:center;font-size:.75rem;color:var(--mut)}
+.console .bar2 i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.chat{padding:18px;display:flex;flex-direction:column;gap:12px;min-height:380px;font-size:.86rem}
+.msg{max-width:88%;padding:11px 14px;border-radius:12px;opacity:0;transform:translateY(10px);transition:.5s}
+.msg.show{opacity:1;transform:none}
+.msg.u{align-self:flex-end;background:var(--red);color:#fff;border-bottom-right-radius:3px}
+.msg.a{align-self:flex-start;background:var(--card);border:1px solid var(--bd);border-bottom-left-radius:3px}
+.msg.sys{align-self:center;font-family:monospace;font-size:.72rem;color:var(--mut);background:none;padding:2px}
+.msg .src{display:block;margin-top:8px;font-size:.72rem;color:var(--mut)}
+.replay{margin:0 18px 16px;align-self:flex-start;background:none;border:1px solid var(--bd);color:var(--mut);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.75rem}.replay:hover{border-color:var(--red);color:var(--red)}
+.stat{text-align:center}.stat .num{font-size:2.8rem;font-weight:800;color:var(--red)}.stat .lbl{color:var(--mut);font-size:.84rem}
+.note{color:#71717A;font-size:.75rem;margin-top:14px;font-style:italic}
+.partner{display:flex;align-items:center;justify-content:center;gap:28px;margin-top:40px;flex-wrap:wrap}
+.partner .p{padding:16px 26px;border:1px solid var(--bd);border-radius:12px;background:var(--card);font-weight:800;font-size:1.1rem}
+.partner .x{color:var(--mut);font-size:1.4rem}
+footer{position:relative;z-index:1;text-align:center;padding:40px 20px;color:var(--mut);font-size:.8rem;border-top:3px solid var(--red)}
+.dots{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:12px}
+.dots a{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2);display:block;transition:.3s}.dots a.active{background:var(--red);transform:scale(1.5)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<canvas id="bg"></canvas>
+<nav>
+  <div class="cop"><div class="mk">COP</div>ConocoPhillips <small>× Snowflake Business Ontology</small></div>
+  <ul>
+    <li><a href="#overview">Overview</a></li><li><a href="#model">Model</a></li><li><a href="#features">Features</a></li><li><a href="#governance">Governance</a></li><li><a href="#security">Security</a></li><li><a href="#poc">POC</a></li><li><a href="#observe">Audit</a></li><li><a href="#limits">Limits</a></li>
+  </ul>
+  <div class="kipi-badge">Delivered by <b>kipi.ai</b></div>
+</nav>
+<div class="dots" id="dots"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-band"></div>
+  <div class="hero-inner">
+    <div class="eyebrow reveal">ConocoPhillips · Data &amp; AI Governance</div>
+    <h1 class="reveal d1">One governed language for <span class="r">every well, lease &amp; barrel</span></h1>
+    <p class="lead reveal d2">Business Ontology on Snowflake Horizon Catalog: security, governance and cost management for Cortex AI, built on canonical oil and gas definitions that people and AI agents can both rely on.</p>
+    <div class="chips reveal d3">
+      <span class="chip pulse" style="--c:var(--amb)">● Private Preview</span>
+      <span class="chip" style="--c:var(--sf)">Snowflake Horizon Context</span>
+      <span class="chip" style="--c:#C4B5FD">Implemented by kipi.ai</span>
+    </div>
+    <div class="credit reveal d4">
+      <div><b>Prepared for</b>ConocoPhillips</div>
+      <div><b>Delivery partner</b>kipi.ai</div>
+      <div><b>Author</b>Gaurav Bhandari, kipi.ai</div>
+    </div>
+  </div>
+  <div class="scroll">Scroll or press ↓</div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="eyebrow reveal">The Challenge &amp; The Answer</div>
+  <h2 class="reveal d1">"Net production" should mean <span class="r">one thing</span>, everywhere</h2>
+  <p class="lead reveal d2">The same term can mean different things in different teams. kipi.ai worked with ConocoPhillips data stewards to put canonical definitions directly in Snowflake. They sit next to the data, are governed by the same RBAC, and are used by Cortex Analyst and Cortex Agents.</p>
+  <div class="stack">
+    <div class="layer reveal d2" style="--c:var(--red)"><b>AI Consumers</b><span>Cortex Analyst · Cortex Agents · Cortex Search</span></div>
+    <div class="layer reveal d3" style="--c:#C4B5FD"><b>Business Ontology</b><span>Domains · Nodes · Relationships · Representations</span></div>
+    <div class="layer reveal d4" style="--c:var(--sf)"><b>Horizon Context</b><span>Semantic Views · Lineage · Auto-descriptions · Tagging</span></div>
+    <div class="layer reveal d5" style="--c:#71717A"><b>ConocoPhillips Data in Snowflake</b><span>Production · Well master · Reserves · Land · Emissions</span></div>
+  </div>
+</section>
+
+<!-- MODEL -->
+<section id="model">
+  <div class="eyebrow reveal">Core Model</div>
+  <h2 class="reveal d1">An oil and gas <span class="r">knowledge graph</span></h2>
+  <div class="graph-wrap">
+    <svg id="kg" viewBox="0 0 560 420" class="reveal d2"><g id="edges"></g><g id="nodes"></g></svg>
+    <div class="grid" style="margin-top:0">
+      <div class="card reveal d2"><h3>Domain</h3><p>Upstream, Midstream, Land, HSE, Drilling, Production Operations, Commercial. A domain is the smallest unit you can grant access on.</p></div>
+      <div class="card reveal d3"><h3>Node <span class="tag">TERM</span></h3><p>Well, Lease, Reservoir, NRI, WI, LOE, Netback, Emissions Event, typed as METRIC, ENTITY, ATTRIBUTE or CONCEPT.</p></div>
+      <div class="card reveal d4"><h3>Relationship</h3><p>Well PART_OF Field · Daily Production DERIVED_FROM Meter Reading · Facility DEPENDS_ON Pipeline.</p></div>
+      <div class="card reveal d5"><h3>Representation <span class="tag">ASSOCIATION</span></h3><p>Links each concept to the production table, well master view, reserves Semantic View or Search Service that implements it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="eyebrow reveal">Capabilities</div>
+  <h2 class="reveal d1">From definitions to <span class="r">AI-ready context</span></h2>
+  <div class="grid g3">
+    <div class="card reveal d1"><div class="ico">⇪</div><h3>Bulk Import</h3><p>CSV, JSON or YAML files, Semantic Views, INFORMATION_SCHEMA comments, dbt manifests, Cortex Sense.</p></div>
+    <div class="card reveal d2"><div class="ico">✦</div><h3>Cortex Sense Enrichment</h3><p>AI proposes nodes and definitions. A ConocoPhillips steward approves each one.</p></div>
+    <div class="card reveal d3"><div class="ico">⟲</div><h3>Semantic View Ingest</h3><p>Build the starting ontology from production, reserves and emissions SVs, with drift detection.</p></div>
+    <div class="card reveal d4"><div class="ico">◎</div><h3>Agent Building</h3><p>Cortex Agents that answer from governed oil and gas definitions.</p></div>
+    <div class="card reveal d5"><div class="ico">↳</div><h3>Comment Egress</h3><p>Write approved descriptions back to column and Semantic View COMMENTs.</p></div>
+    <div class="card reveal d6"><div class="ico">⛨</div><h3>Pre-write Quality Gate</h3><p>Checks invariants, boundary rules and relationship constraints before every write.</p></div>
+  </div>
+</section>
+
+<!-- GOVERNANCE -->
+<section id="governance">
+  <div class="eyebrow reveal">Governance Principles</div>
+  <h2 class="reveal d1">Every change needs <span class="r">steward approval</span></h2>
+  <p class="lead reveal d2">Nothing AI-generated becomes active without human confirmation. An edit to a live definition opens an edit card, and the live version stays active until the edit is approved.</p>
+  <div class="flow">
+    <div class="step reveal d1" style="--c:#7C3AED"><div class="n">1</div><h3>Propose</h3><p>Manual, Semantic View ingest or Cortex Sense</p></div><div class="arrow">→</div>
+    <div class="step reveal d2" style="--c:#B5121B"><div class="n">2</div><h3>Quality Gate</h3><p>Admission, volume and homonym rules</p></div><div class="arrow">→</div>
+    <div class="step reveal d3" style="--c:#D97706"><div class="n">3</div><h3>Draft</h3><p>Visible only to stewards</p></div><div class="arrow">→</div>
+    <div class="step reveal d4" style="--c:#E31937"><div class="n">4</div><h3>Steward Review</h3><p>MODIFY privilege on the domain</p></div><div class="arrow">→</div>
+    <div class="step reveal d5" style="--c:#16A34A"><div class="n">5</div><h3>Active</h3><p>Governed and usable by AI</p></div>
+  </div>
+  <div class="grid g4" style="margin-top:40px">
+    <div class="card reveal d1"><h3>Steward accountability</h3><p>Domain stewards own the accuracy of their definitions.</p></div>
+    <div class="card reveal d2"><h3>Evidence-grounded</h3><p>Definitions come from allocations, reserves documentation and regulatory rules. The AUM principle: nothing fabricated goes active.</p></div>
+    <div class="card reveal d3"><h3>Domain-scoped</h3><p>Each node belongs to exactly one domain. Domains are never invented.</p></div>
+    <div class="card reveal d4"><h3>Least privilege</h3><p>READ for consumers, SUGGEST for proposers, MODIFY for approvers.</p></div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section id="security">
+  <div class="eyebrow reveal">Security &amp; Access Control</div>
+  <h2 class="reveal d1">Ontology domains are <span class="r">securable objects</span></h2>
+  <p class="lead reveal d2">Uses your existing ConocoPhillips SSO and MFA session with no separate login. Every SYSTEM$ call runs under the active role. A lookup you aren't allowed to make returns <i>not-found</i>, not <i>access-denied</i>.</p>
+  <table class="reveal d3">
+    <thead><tr><th>Privilege</th><th>Read published</th><th>See drafts</th><th>Propose</th><th>Approve / Edit</th><th>Drop domain</th><th>Scope</th></tr></thead>
+    <tbody>
+      <tr><td>READ</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td><div class="bar" data-w="20"></div></td></tr>
+      <tr><td>SUGGEST</td><td class="y">✓</td><td class="n">—</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td><td><div class="bar" data-w="45"></div></td></tr>
+      <tr><td>MODIFY</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="n">—</td><td><div class="bar" data-w="75"></div></td></tr>
+      <tr><td>ALL PRIVILEGES</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="n">—</td><td><div class="bar" data-w="85"></div></td></tr>
+      <tr><td>OWNERSHIP</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td><div class="bar" data-w="100"></div></td></tr>
+    </tbody>
+  </table>
+  <pre class="reveal d4" id="code"></pre>
+</section>
+
+<!-- POC -->
+<section id="poc">
+  <div class="eyebrow reveal">Proof of Concept · Delivered by kipi.ai</div>
+  <h2 class="reveal d1">A small POC: <span class="r">Production Operations</span> domain</h2>
+  <p class="lead reveal d2">A tightly scoped POC: one domain, a few existing Semantic Views, three steward roles, and one Cortex Agent answering production questions from governed definitions.</p>
+  <div class="poc">
+    <div class="timeline reveal d2" id="tl">
+      <div class="fill" id="tlfill"></div>
+      <div class="tl" data-n="1"><h4>Scope &amp; Discovery <span class="who k">kipi</span><span class="who c">COP</span></h4><p>Pick the Production Operations domain, its priority KPIs (Daily Production, LOE, Netback, NRI) and the source Semantic Views.</p></div>
+      <div class="tl" data-n="2"><h4>Enable &amp; Secure <span class="who s">Snowflake</span><span class="who k">kipi</span></h4><p>Confirm the feature flag with <span class="tag">GET_GLOSSARY_SUMMARY()</span>, create the domain, and grant READ, SUGGEST and MODIFY roles.</p></div>
+      <div class="tl" data-n="3"><h4>Bootstrap the Ontology <span class="who k">kipi</span></h4><p>Ingest the production Semantic Views and enrich them with Cortex Sense. Every item is stamped SV_DEFINITION or CORTEX_SENSE.</p></div>
+      <div class="tl" data-n="4"><h4>Steward Review <span class="who c">COP</span></h4><p>Production Ops stewards check each draft against allocation rules and approve or reject it. Nothing AI-generated goes live without a steward.</p></div>
+      <div class="tl" data-n="5"><h4>Link &amp; Relate <span class="who k">kipi</span><span class="who c">COP</span></h4><p>Add representations to tables and columns, add relationships (Well PART_OF Field, Daily Production DERIVED_FROM Meter Reading), and write comments back.</p></div>
+      <div class="tl" data-n="6"><h4>Ontology-grounded Agent <span class="who k">kipi</span></h4><p>Build a Cortex Agent that uses ontology search and the linked Semantic Views.</p></div>
+      <div class="tl" data-n="7"><h4>Validate &amp; Handover <span class="who c">COP</span><span class="who k">kipi</span></h4><p>Review the audit trail with <span class="tag">GET_GLOSSARY_TERM_HISTORY</span>, report findings, and plan rollout to Land, HSE and Reserves.</p></div>
+    </div>
+    <div class="console reveal d3">
+      <div class="bar2"><i style="background:#EF4444"></i><i style="background:#F59E0B"></i><i style="background:#22C55E"></i>&nbsp; Production Ops Agent · POC demo</div>
+      <div class="chat" id="chat"></div>
+      <button class="replay" id="replay">↻ Replay demo</button>
+    </div>
+  </div>
+  <div class="grid g4" style="margin-top:34px">
+    <div class="card reveal d1"><h3>In scope</h3><p>1 domain · a handful of KPIs · existing Semantic Views · 3 steward roles · 1 agent</p></div>
+    <div class="card reveal d2"><h3>Success criteria</h3><p>The agent answers from approved definitions only, every node has provenance, and RBAC enforcement is verified.</p></div>
+    <div class="card reveal d3"><h3>kipi.ai delivers</h3><p>Setup, ingestion, Cortex Sense enrichment, the agent, and a runbook and handover.</p></div>
+    <div class="card reveal d4"><h3>ConocoPhillips provides</h3><p>Domain stewards, source Semantic Views, business validation and sign-off.</p></div>
+  </div>
+  <p class="note">The POC flow and agent conversation are illustrative of the approach. Final scope and timeline will be agreed with ConocoPhillips.</p>
+</section>
+
+<!-- OBSERVABILITY -->
+<section id="observe">
+  <div class="eyebrow reveal">Observability &amp; Audit</div>
+  <h2 class="reveal d1">Full traceability, <span class="r">from concept to change</span></h2>
+  <p class="lead reveal d2">Every node carries a provenance stamp. The first write sets it and later approvals don't change it, so ConocoPhillips can always audit what came from people and what came from AI.</p>
+  <div class="prov reveal d3">
+    <div style="--c:var(--ok)">MANUAL · human-directed</div>
+    <div style="--c:var(--sf)">SV_DEFINITION · Semantic View ingest</div>
+    <div style="--c:#C4B5FD">CORTEX_SENSE · AI-proposed</div>
+  </div>
+  <div class="grid g3">
+    <div class="card reveal d1"><h3><span class="tag">GET_GLOSSARY_SUMMARY()</span></h3><p>Account-wide counts of domains, terms, drafts and links.</p></div>
+    <div class="card reveal d2"><h3><span class="tag">GET_GLOSSARY_GRAPH()</span></h3><p>The full published graph, filterable by domain.</p></div>
+    <div class="card reveal d3"><h3><span class="tag">GET_GLOSSARY_TERM_HISTORY()</span></h3><p>Newest-first change log for a node.</p></div>
+    <div class="card reveal d4"><h3><span class="tag">GET_GLOSSARY_TERM_DRAFTS()</span></h3><p>Pending drafts and edit cards in a domain.</p></div>
+    <div class="card reveal d5"><h3><span class="tag">GET_GLOSSARY_ACCESS()</span></h3><p>The current role's privilege matrix for each domain.</p></div>
+    <div class="card reveal d6" style="--c:var(--amb)"><h3>Best practice</h3><p>Track the draft backlog, audit critical KPIs, and scope draft queries to a domain.</p></div>
+  </div>
+</section>
+
+<!-- LIMITATIONS -->
+<section id="limits">
+  <div class="eyebrow reveal">Limitations &amp; Availability</div>
+  <h2 class="reveal d1">Know the <span class="r">current boundaries</span></h2>
+  <div class="grid g2">
+    <div class="card reveal d1"><div class="lim"><span class="x">!</span><div><h3>Private Preview</h3><p>Must be enabled per account by the Snowflake account team. SUGGEST and edit cards may not be available everywhere.</p></div></div></div>
+    <div class="card reveal d2"><div class="lim"><span class="x">!</span><div><h3>Domain-level stewardship only</h3><p>You can't assign a steward to an individual node. Use subdomains for finer control.</p></div></div></div>
+    <div class="card reveal d3"><div class="lim"><span class="x">!</span><div><h3>No rename or move APIs</h3><p>Renaming a domain or moving a node means recreating it, which breaks audit history.</p></div></div></div>
+    <div class="card reveal d4"><div class="lim"><span class="x">!</span><div><h3>No ACCOUNT_USAGE view</h3><p>Auditing relies on SYSTEM$ functions. SHOW GRANTS ON ONTOLOGY DOMAIN is not supported.</p></div></div></div>
+    <div class="card reveal d5"><div class="lim"><span class="x">!</span><div><h3>One-way sync</h3><p>Imports from dbt and BI tools are one-way. Comment egress is a skill-orchestrated workaround.</p></div></div></div>
+    <div class="card reveal d6"><div class="lim"><span class="x">!</span><div><h3>Batch-approval risk</h3><p>Always scope APPROVE_ALL_* calls by session or domain.</p></div></div></div>
+  </div>
+</section>
+
+<!-- CLOSE -->
+<section id="close" style="text-align:center;align-items:center">
+  <div class="eyebrow reveal" style="justify-content:center">Summary</div>
+  <h1 class="reveal d1">Governed meaning.<br><span class="r">Trusted AI.</span></h1>
+  <div class="grid g4" style="width:100%;max-width:1000px">
+    <div class="stat reveal d1"><div class="num" data-count="4">0</div><div class="lbl">Core building blocks</div></div>
+    <div class="stat reveal d2"><div class="num" data-count="5">0</div><div class="lbl">Privilege levels</div></div>
+    <div class="stat reveal d3"><div class="num" data-count="7">0</div><div class="lbl">POC steps</div></div>
+    <div class="stat reveal d4"><div class="num" data-count="100" data-suffix="%">0</div><div class="lbl">AI content steward-reviewed</div></div>
+  </div>
+  <div class="partner reveal d5">
+    <div class="p" style="color:var(--red)">ConocoPhillips</div><span class="x">×</span>
+    <div class="p" style="color:#C4B5FD">kipi.ai</div><span class="x">×</span>
+    <div class="p" style="color:var(--sf)">❄ Snowflake</div>
+  </div>
+  <p class="lead reveal d6" style="margin:30px auto 0">Designed and delivered by <b style="color:#C4B5FD">kipi.ai</b> for ConocoPhillips on Snowflake Horizon Catalog.</p>
+</section>
+
+<footer>Prepared for ConocoPhillips · Work delivered by kipi.ai · Author: Gaurav Bhandari · Business Ontology is in Private Preview; see the Snowflake Horizon Catalog documentation for current availability.</footer>
+
+<script>
+// background
+const cv=document.getElementById('bg'),cx=cv.getContext('2d');let W,H,P=[];
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight;P=Array.from({length:Math.min(80,W/18)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3}))}
+rs();addEventListener('resize',rs);
+(function loop(){cx.clearRect(0,0,W,H);for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;cx.fillStyle='rgba(227,25,55,.7)';cx.beginPath();cx.arc(p.x,p.y,1.5,0,7);cx.fill()}
+for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);if(d<130){cx.strokeStyle=`rgba(227,25,55,${.15*(1-d/130)})`;cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(P[j].x,P[j].y);cx.stroke()}}
+requestAnimationFrame(loop)})();
+
+// graph
+const N={well:[150,110,'Well','#E31937'],field:[330,70,'Field','#B5121B'],res:[470,170,'Reservoir','#7C3AED'],lease:[110,270,'Lease','#D97706'],asset:[300,220,'Asset','#52525B'],prod:[240,360,'Daily Prod.','#E31937'],meter:[430,330,'Meter Read','#3F3F46'],fac:[480,60,'Facility','#29B5E8']};
+const E=[['well','field','PART_OF'],['field','res','ASSOCIATED_WITH'],['lease','asset','ASSOCIATED_WITH'],['well','asset','PART_OF'],['prod','meter','DERIVED_FROM'],['prod','well','MEASURES'],['res','asset','ASSOCIATED_WITH'],['fac','field','DEPENDS_ON']];
+const eg=document.getElementById('edges'),ng=document.getElementById('nodes'),ns='http://www.w3.org/2000/svg';
+const mk=(t,a)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);return e};
+E.forEach(([a,b,l])=>{const[x1,y1]=N[a],[x2,y2]=N[b];eg.appendChild(mk('line',{x1,y1,x2,y2,class:'edge'}));const t=mk('text',{x:(x1+x2)/2,y:(y1+y2)/2-4,class:'elabel'});t.textContent=l;eg.appendChild(t)});
+Object.values(N).forEach(([x,y,l,c],i)=>{const g=mk('g',{class:'nd'});const ci=mk('circle',{cx:x,cy:y,r:28,fill:c,stroke:'#fff','stroke-opacity':.25,'stroke-width':2});ci.appendChild(mk('animate',{attributeName:'r',values:'28;31;28',dur:(2.5+i*.3)+'s',repeatCount:'indefinite'}));const t=mk('text',{x,y:y+4});t.textContent=l;g.append(ci,t);ng.appendChild(g)});
+
+// reveal
+function countUp(el){if(el.dataset.done)return;el.dataset.done=1;const t=+el.dataset.count,s=el.dataset.suffix||'';let v=0;const st=Math.max(1,t/40);const iv=setInterval(()=>{v=Math.min(t,v+st);el.textContent=Math.round(v)+s;if(v>=t)clearInterval(iv)},30)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;el.classList.add('in');
+ el.querySelectorAll('.bar').forEach(b=>b.style.width=b.dataset.w+'%');
+ el.querySelectorAll('[data-count]').forEach(countUp);
+ if(el.id==='code'&&!el.dataset.done){el.dataset.done=1;typeCode(el)}
+ if(el.id==='tl'&&!el.dataset.done){el.dataset.done=1;runTimeline()}
+ if(el.classList.contains('console')&&!el.dataset.done){el.dataset.done=1;runChat()}}),{threshold:.25});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// typed SQL
+const code=[['c','-- kipi.ai RBAC pattern for ConocoPhillips'],['k','GRANT CREATE ONTOLOGY DOMAIN ON ACCOUNT TO ROLE DATA_GOVERNANCE_LEAD;'],['c','-- Steward: approve / edit'],['k','GRANT MODIFY  ON ONTOLOGY DOMAIN "Production Operations" TO ROLE PRODUCTION_OPS_STEWARD;'],['c','-- Proposer: suggest only'],['k','GRANT SUGGEST ON ONTOLOGY DOMAIN "Production Operations" TO ROLE PRODUCTION_OPS_ANALYST;'],['c','-- Consumer: read only'],['k','GRANT READ    ON ONTOLOGY DOMAIN "Production Operations" TO ROLE PRODUCTION_OPS_VIEWER;']];
+function typeCode(el){let li=0,ci=0;el.classList.add('typed');const sp=()=>{const s=document.createElement('span');s.className=code[li][0];el.appendChild(s);return s};let cur=sp();
+ const iv=setInterval(()=>{if(li>=code.length){clearInterval(iv);el.classList.remove('typed');return}const t=code[li][1];if(ci<t.length)cur.textContent+=t[ci++];else{el.appendChild(document.createTextNode('\n'));li++;ci=0;if(li<code.length)cur=sp()}},12)}
+
+// POC timeline
+function runTimeline(){const items=[...document.querySelectorAll('.tl')];document.getElementById('tlfill').style.height='calc(100% - 12px)';items.forEach((t,i)=>setTimeout(()=>t.classList.add('on'),i*500))}
+
+// POC chat
+const script=[
+ ['sys','role: PRODUCTION_OPS_VIEWER · domain: Production Operations'],
+ ['u','What was net production for the Permian assets last month?'],
+ ['sys','ontology_search → "Net Production" (METRIC, ACTIVE) · steward-approved'],
+ ['a','Using the approved definition of <b>Net Production</b> (gross production × NRI, from allocated Daily Production), the result comes from the linked production Semantic View.<span class="src">Source: Production Operations › Net Production · sourceType SV_DEFINITION · approved by PRODUCTION_OPS_STEWARD</span>'],
+ ['u','How is LOE defined here?'],
+ ['a','<b>LOE (Lease Operating Expense)</b> is a governed METRIC in the Production Operations domain, linked to its Snowflake representation, with full change history in GET_GLOSSARY_TERM_HISTORY.<span class="src">Illustrative POC response</span>'],
+ ['sys','draft "Water Cut v2" (CORTEX_SENSE) hidden: pending steward approval']];
+let timers=[];
+function runChat(){timers.forEach(clearTimeout);timers=[];const c=document.getElementById('chat');c.innerHTML='';
+ script.forEach(([r,t],i)=>timers.push(setTimeout(()=>{const m=document.createElement('div');m.className='msg '+r;m.innerHTML=t;c.appendChild(m);requestAnimationFrame(()=>m.classList.add('show'))},600+i*1400)))}
+document.getElementById('replay').onclick=runChat;
+
+// nav
+const secs=[...document.querySelectorAll('section')],dots=document.getElementById('dots');
+secs.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;dots.appendChild(a)});
+function cur(){let idx=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight/2)idx=i});return idx}
+addEventListener('scroll',()=>{const h=document.documentElement;document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';const idx=cur();
+ dots.querySelectorAll('a').forEach((a,i)=>a.classList.toggle('active',i===idx));
+ document.querySelectorAll('nav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+secs[idx].id))});
+addEventListener('keydown',e=>{const idx=cur();
+ if(['ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();secs[Math.min(secs.length-1,idx+1)].scrollIntoView()}
+ if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault();secs[Math.max(0,idx-1)].scrollIntoView()}});
+</script>
+</body>
+</html>
